@@ -9,7 +9,9 @@ import osc.hello.member.MemberServiceImpl;
 
 public class MemberApp {
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+//        MemberService memberService = new MemberServiceImpl();
         Member member = new Member(1l, "nomukun", Grade.VIP);
         memberService.join(member);
         // 멤버서비스의 join 메소드 부르고 멤버 객체를 매개변수로 넣어봐
