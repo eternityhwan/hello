@@ -1,5 +1,9 @@
 package osc.hello.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService {
     // 가입을 하고 조회를 하려면 레파지토리 인터페이스가 필요해
     // 레파지토리 인터페이스만 가져오면 nullpoint exception 에러 난다.
@@ -7,6 +11,7 @@ public class MemberServiceImpl implements MemberService {
 //   private final MemberRepository memberRepository = new MemoryMemberRepository();
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
         // 메모미 맴버 리포지토리 코드가 하나도 없음, DIP를 잘 지킴, AppConfig에서 통제함, 생성자 주입이다.
@@ -22,6 +27,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    //테스트
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
 // 의존관계가 인터페이스뿐 아니라 구현까지 모두 의존하는 문제점이 있다.

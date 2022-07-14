@@ -1,8 +1,10 @@
 package osc.hello.discount;
 
+import org.springframework.stereotype.Component;
 import osc.hello.member.Grade;
 import osc.hello.member.Member;
 
+@Component
 public class RateDiscountPolicy implements DiscountPolicy {
 
     private int discountPercent = 10;

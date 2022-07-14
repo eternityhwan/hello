@@ -1,14 +1,18 @@
 package osc.hello.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import osc.hello.discount.DiscountPolicy;
 import osc.hello.member.Member;
 import osc.hello.member.MemberRepository;
 
+@Component
 public class OrderServiceImpl implements OrderService {
     // 주문 서비스는 두 가지가 필요. 맴버리포지토리에서 회원 찾고 디스카운트 폴리시가 있어야해
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    @Autowired // 얘가 멤버 리파지토리, 디스카운트 폴리시도 의존성 주입해줌.
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
@@ -17,8 +21,11 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId); // 맴버는 멤버레파지토리에서 아이디를 찾는다.
         int discountPrice = discountPolicy.discount(member, itemPrice);
-
         return new Order(memberId, itemName, itemPrice, discountPrice); // 주문을 만들어서 반환해주기만하면 주문 끝나.
+    }
+
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
     // 인터페이스에만 의존하니까 dip에 맞음 근데 이게 작동을 안하지 않냐? 구현이 안되잖아.
